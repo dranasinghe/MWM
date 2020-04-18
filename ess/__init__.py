@@ -1,3 +1,3 @@
-import Gaussian
-import Qchem
-import Orca
+from .Gaussian import Gaussian
+from .Orca import Orca
+from .Qchem import Qchem

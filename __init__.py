@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import rms
-import arc
-import ess
+from .rms import rms
+from .arc import arc
+from .ess import ess

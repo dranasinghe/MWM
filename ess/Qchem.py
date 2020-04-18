@@ -1,7 +1,7 @@
 import os
 import logging
 
-class QChem(object):
+class Qchem(object):
     """
     parse and  create Qchem files
     """
