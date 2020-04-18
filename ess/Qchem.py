@@ -44,7 +44,64 @@ class QChem(object):
 
         if config_script is not None:
             self.config_script = config_script
-
+        else :
+            self.config_script = """
+$molecule
+{charge} {multiplicity}
+{xyz}
+$end
+$rem
+JOBTYPE                   FREQ
+METHOD                    wB97X-D3
+BASIS                     def2-TZVP
+UNRESTRICTED              TRUE
+SCF_ALGORITHM             DIIS
+MAX_SCF_CYCLES            100
+SCF_CONVERGENCE           8
+SYM_IGNORE                TRUE
+SYMMETRY                  FALSE
+WAVEFUNCTION_ANALYSIS     FALSE
+$end
+@@@
+$molecule
+read
+$end
+$rem
+JOBTYPE                   TS
+METHOD                    wB97X-D3
+BASIS                     def2-TZVP
+UNRESTRICTED              TRUE
+SCF_GUESS                 READ
+GEOM_OPT_HESSIAN          READ
+SCF_ALGORITHM             DIIS
+MAX_SCF_CYCLES            100
+SCF_CONVERGENCE           8
+SYM_IGNORE                TRUE
+SYMMETRY                  FALSE
+GEOM_OPT_MAX_CYCLES       100
+GEOM_OPT_TOL_GRADIENT     100
+GEOM_OPT_TOL_DISPLACEMENT 400
+GEOM_OPT_TOL_ENERGY       33
+WAVEFUNCTION_ANALYSIS     FALSE
+$end
+@@@
+$molecule
+read
+$end
+$rem
+JOBTYPE                   FREQ
+METHOD                    wB97X-D3
+BASIS                     def2-TZVP
+UNRESTRICTED              TRUE
+SCF_GUESS                 READ
+SCF_ALGORITHM             DIIS
+MAX_SCF_CYCLES            100
+SCF_CONVERGENCE           8
+SYM_IGNORE                TRUE
+SYMMETRY                  FALSE
+WAVEFUNCTION_ANALYSIS     FALSE
+$end
+"""
     def make_input_file(self, name, mol, charge=0, multiplicity=1, cid=0, comment=None):
         symbols = [a.GetSymbol() for a in mol.GetAtoms()]
         coords = mol.GetConformer(cid).GetPositions()
