@@ -44,7 +44,16 @@ class Orca(object):
         if config_script is not None:
             self.config_script = config_script
         else:
-            self.config_script = None
+            self.config_script = """!UHF DLPNO-CCSD(T) def2-TZVP def2-TZVP/C TightSCF normalPNO
+%maxcore 10000
+#
+%pal
+nproc {nproc}
+end
+#how to do thermo
+*xyz {charge} {multiplicity}
+{xyz}*
+"""
 
     def make_input_file(self, name, mol, charge=0, multiplicity=1, cid=0, comment=None):
         symbols = [a.GetSymbol() for a in mol.GetAtoms()]
@@ -54,15 +63,17 @@ class Orca(object):
     def make_input_file_from_xyz(self, name, symbols, coords, charge=0, multiplicity=1, comment=None):
         #        config = self.config[:]
 
-        # setting number of proc depengin on size of molecule
+        # setting number of proc depending on size of molecule
         if len(symbols) < 3:
             nproc = 1
         elif len(symbols) < 8:
-            nproc = 2
+            nproc = 8
         elif len(symbols) >= 4 and len(symbols) < 15 and 'H' in symbols:
-            nproc = 4
-        else:
             nproc = 16
+        elif len(symbols) >= 15 :
+            nproc = 20
+        else:
+            nproc = 4
 
         xyz_str = ''
         for s, c in zip(symbols, coords):

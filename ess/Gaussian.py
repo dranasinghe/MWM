@@ -42,7 +42,18 @@ class Gaussian(object):
         if config_script is not None:
             self.config_script = config_script
         else:
-            self.config_script = None
+            self.config_script = """%chk=check.chk
+%mem=1000mb
+%NProcShared=4
+#P guess=mix apfd/defsvp scf=xqc
+ 
+title
+ 
+{charge} {multiplicity}
+{xyz}
+
+
+"""
 
     def get_energy(self, first=True):
         """We would like to parse and put diffent level of theory to dictionary"""
