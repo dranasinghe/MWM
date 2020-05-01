@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-Simulate rms
+Simulate myrms
 """
 def rmsconttp(Temp,Patm,Time):
     Ppa=Patm*101325
