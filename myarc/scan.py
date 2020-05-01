@@ -7,13 +7,13 @@ from arkane.statmech import determine_qm_software
 import numpy as np
 import matplotlib.pyplot as plt
 
-from arc import settings
-from arc.main import ARC
-from arc.job.ssh import SSHClient, write_file
-from arc.common import read_yaml_file, save_yaml_file
-from arc.parser import parse_xyz_from_file
-from arc.job.job import Job
-from arc.settings import servers, check_status_command, submit_command, submit_filename, delete_command
+from myarc import settings
+from myarc.main import ARC
+from myarc.job.ssh import SSHClient, write_file
+from myarc.common import read_yaml_file, save_yaml_file
+from myarc.parser import parse_xyz_from_file
+from myarc.job.job import Job
+from myarc.settings import servers, check_status_command, submit_command, submit_filename, delete_command
 
 def disply_scan(project_directory, job_name):
     species_label = find_species_by_job_name(project_directory, job_name)
