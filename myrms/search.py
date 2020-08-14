@@ -48,7 +48,6 @@ def find_species_by_smiles(rmg_spc: list, smiles: str) -> Molecule:
     else:
         return mol
 
-
 def find_reactions_by_label(rmg_rxn: list, label: str) -> list:
     """
     for given species find all the reactions involved in
@@ -65,7 +64,7 @@ def find_reactions_by_label(rmg_rxn: list, label: str) -> list:
             print(rxn.index, [y.label for y in rxn.reactants], "->", [y.label for y in rxn.products])
     return x1
 
-def display_reactions(rxn_list:list):
+def display_reactions(rxn_list:list, t = 313.0):
     """
     print list of reactions
     :param rxn_list: list of rmg reactions
@@ -75,39 +74,54 @@ def display_reactions(rxn_list:list):
         print(react.index, react)
         display(react)
         if hasattr(react, 'library'):
-            print(react.library)
+            print("reaction library:",react.library)
         else:
             print("reaction object has no library attribute")
+        print('---forward kinetic---')
         print(react.kinetics)
+        kf = react.get_rate_coefficient(t)
+        print(f'forward rate at {t}: {kf}')
+        print('---reverse kinetic---')
+        print(react.generate_reverse_rate_coefficient())
+        kr = react.generate_reverse_rate_coefficient().get_rate_coefficient(t)
+        print(f'reverse rate at {t}: {kr}')
         print('-----------------------------------------------------\n')
 
-def find_reaction_by_index(rxn:list,num:int)->list:
+def find_reaction_by_index(rxn:list,num:int)-> object:
     """
     find reactions by chemkin reaction index
     :param rxn: (list) rmg reaction list
     :param num: (int) chemkin reaction index
     :return: rmg reaction
     """
+    #x1 = []
     for react in rxn:
         if react.index==num:
+            #x1.append(react)
             display(react)
             if hasattr(react, 'library'):
                 print(react.library)
             else:
                 print("reaction object has no library attribute")
             print(react.kinetics,"\n")
+            return react
+
 def find_all_reaction_from_library(rxn:list,lib: str)->list:
     """
     find all the reactions form a specific library
     :param rxn: RMG reaction list
     :param lib: (str) rmg library name
-    :return: (list) of rections
+    :return: (list) of reactions
     """
     i=1
+    x1=[]
     for react in rxn:
         if hasattr(react, 'library'):
             if react.library==lib:
+                x1.append(react)
                 print(i,react)
                 display(react)
                 print(react.kinetics,"\n")
                 i=i+1
+
+    return x1
